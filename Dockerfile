@@ -1,14 +1,12 @@
-FROM ubuntu:16.04
-
-MAINTANER Your Name "Omer"
-
-RUN apt-get update -y && \
-    apt-get install -y python-pip python-dev
-
-# We copy just the requirements.txt first to leverage Docker cache
-COPY ./requirements.txt /app/requirements.txt
+FROM python:3.9-alpine
 WORKDIR /app
+ENV FLASK_APP=mainScores.py
+ENV FLASK_RUN_HOST=0.0.0.0
+RUN apk add --no-cache gcc musl-dev linux-headers
+RUN pip install flask
+COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
-COPY . /app
-ENTRYPOINT [ "python" ]
-CMD [ "mainScores.py" ]
+EXPOSE 8777
+RUN ls -l /usr/local/bin
+COPY / /app
+CMD ["python", "mainScores.py"]

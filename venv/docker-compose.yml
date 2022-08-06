@@ -1,0 +1,7 @@
+version: "3.9"
+services:
+  summary:
+    build: .
+    ports:
+      - "8777:5000"
+    image: "summary"
